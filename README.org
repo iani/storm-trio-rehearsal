@@ -4,7 +4,7 @@ Libraries for sonifying geomagetic measurement data on SuperCollider and visuali
 
 * Installation on SuperCollider
 
-- Make a symbolic link to the folder =./sc/DataSendLibrary/= to the Extensions folder in your Platform's user app dir 
+- Make a symbolic link (or just a copy) to the folder =./sc/DataSendLibrary/= to the Extensions folder in your Platform's user app dir:
 
 #+BEGIN_SRC sclang
 Platform.userExtensionDir
@@ -15,3 +15,5 @@ Platform.userExtensionDir
 #+BEGIN_SRC sclang
 StormData.loadData;
 #+END_SRC
+
+- Recompile the SuperCollider library.

@@ -1,5 +1,5 @@
 /*
-Load magnetic storm data from data folder and send them, in various ways.
+	Load magnetic storm data from data folder and send them, in various ways.
 
 */
 StormData {
@@ -7,6 +7,7 @@ StormData {
 	classvar <data;
 	classvar <xmax, <xmin, <ymax, <ymin, <zmax, <zmin;
 	classvar <>addresses;
+	classvar <>localOfAddr;
 	
 	*loadData {
 		var path, x, y, z;
@@ -29,8 +30,9 @@ StormData {
 	}
 
 	*init {
+		localOfAddr = NetAddr ("127.0.0.1", 12345);
 		if (addresses.size == 0) {
-			addresses = [NetAddr ("127.0.0.1", 12345)]
+			addresses = [localOfAddr];
 		};
 	}
 
@@ -53,8 +55,9 @@ StormData {
 			var triplet, start, stop;
 			triplet = [];
 			start = Process.elapsedTime.postln;
-			StormData.data do: { | row |
+			StormData.data do: { | row, index |
 				triplet = triplet ++ row;
+				if (index % 10 == 0) { postf ("played row: %\n", index + 1) };
 				if (triplet.size == 9) {
 					addresses do: { | addr |
 						addr.sendMsg ('/vertex', *(triplet.postln ++ Array.rand (3, 0.1, 0.9)));
@@ -66,5 +69,25 @@ StormData {
 			stop = Process.elapsedTime.postln;
 			(stop-start).postln;
 		}.fork
+	}
+
+	*fluidsGui {
+		var window;
+		// var 
+		window = Window ("fluids");
+		window.layout = VLayout (
+			HLayout (
+				StaticText ().string_ ("num cells"),
+				Slider ()
+			),
+			HLayout (
+				StaticText ().string_ ("select ..."),
+				CheckBox ()
+			));
+		window.front;
+	}
+
+	*modelGui {
+		
 	}
 }
