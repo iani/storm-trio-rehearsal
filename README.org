@@ -1,0 +1,17 @@
+20 May 2017 13:09
+
+Libraries for sonifying geomagetic measurement data on SuperCollider and visualizing them on openFrameworks. 
+
+* Installation on SuperCollider
+
+- Make a symbolic link to the folder =./sc/DataSendLibrary/= to the Extensions folder in your Platform's user app dir 
+
+#+BEGIN_SRC sclang
+Platform.userExtensionDir
+#+END_SRC
+
+- Edit the file =startup.sc= in your =Platform.userAppSupportDir=.  Insert this line to make the library load the data when you start up SuperCollider or when you recompile the sclang library:
+
+#+BEGIN_SRC sclang
+StormData.loadData;
+#+END_SRC
