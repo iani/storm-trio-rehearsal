@@ -20,6 +20,7 @@ StormData {
 		data = this.loadDataAsPoints (dataPaths.first);
 		postf ("% finished loading data from %\n", this, path);
 		postf ("% data rows read\n", data.size + 1);
+		("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!").postln;
 		#x, y, z = data.flop;
 		xmax = x.maxItem;
 		xmin = x.minItem;
@@ -73,21 +74,48 @@ StormData {
 
 	*fluidsGui {
 		var window;
-		// var 
 		window = Window ("fluids");
 		window.layout = VLayout (
+			this.makeSlider("num cells", 30, 250, 1, 100),
 			HLayout (
-				StaticText ().string_ ("num cells"),
-				Slider ()
+				StaticText ().string_ ("draw fluids"),
+				CheckBox ()
 			),
 			HLayout (
-				StaticText ().string_ ("select ..."),
+				StaticText ().string_ ("draw particles"),
 				CheckBox ()
-			));
+			),
+			this.makeSlider("viscosity", 0, 0.003, 0, 0.001),
+			this.makeSlider("dt", 0, 0.25, 0, 0.175)
+		);
 		window.front;
 	}
 
 	*modelGui {
-		
+		var window;
+	}
+
+	*makeSlider { | name = "test", min = 0, max = 1, step = 0, default = 0.5, param = \test |
+		var slider, numbox, value, spec;
+		spec = ControlSpec (min, max, \lin, step, default);
+		^HLayout (
+			StaticText ().string_ (name),
+			slider = Slider ()
+			.orientation_ ('horizontal')
+			.value_ (spec.unmap (default))
+			.action_ ({ | me |
+				value = spec.map (me.value);
+				numbox.value = value;
+				this.send2OF(param, value);
+			}),
+			numbox = NumberBox ()
+			.maxDecimals_ (5)
+			.value_ (default)
+		);
+	}
+
+	*send2OF { | param = \test ... values |
+		localOfAddr.sendMsg (param, *values);
+		postf ("sent % value: %\n", param, values);
 	}
 }

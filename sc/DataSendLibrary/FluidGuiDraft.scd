@@ -24,18 +24,15 @@ sliderMaker = { | name = "test", min = 0, max = 1, step = 0, default = 0.5, mess
 			numbox.value = value;
 			send.(value);
 		}),
-		numbox = NumberBox ().value_ (default)
+		numbox = NumberBox ()
+		.maxDecimals_ (5)
+		.value_ (default)
 	);
 };
 
 window = Window ("fluids");
 window.layout = VLayout (
-	sliderMaker.("num cells", ),
-	HLayout (
-		StaticText ().string_ ("num cells"),
-		Slider ().orientation_ ('horizontal'),
-		NumberBox ().value_ (10)
-	),
+	sliderMaker.("num cells", 30, 250, 1, 100),
 	HLayout (
 		StaticText ().string_ ("draw fluids"),
 		CheckBox ()
@@ -44,16 +41,8 @@ window.layout = VLayout (
 		StaticText ().string_ ("draw particles"),
 		CheckBox ()
 	),
-	HLayout (
-		StaticText ().string_ ("viscosity"),
-		Slider ().orientation_ ('horizontal')
-	),
-	HLayout (
-		StaticText ().string_ ("dt"),
-		Slider ().orientation_ ('horizontal')
-	),
-	HLayout (
-		StaticText ().string_ ("fade speed"),
-		Slider ().orientation_ ('horizontal')
-	));
+	sliderMaker.("viscosity", 0, 0.003, 0, 0.001),
+	sliderMaker.("dt", 0, 0.25, 0, 0.175)
+);
+
 window.front;
