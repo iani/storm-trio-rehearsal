@@ -101,13 +101,13 @@ void ofApp::setup(){
     ofVec3f v2(100, 100, -100);
     
     mesh.addVertex(v0);
-    mesh.addColor(ofFloatColor(0.0, 0.0, 0.0));
+    mesh.addColor(ofFloatColor(1.0, 0.0, 1.0));
     
     mesh.addVertex(v1);
     mesh.addColor(ofFloatColor(1.0, 0.0, 0.0));
     
     mesh.addVertex(v2);
-    mesh.addColor(ofFloatColor(1.0, 1.0, 0.0));
+    mesh.addColor(ofFloatColor(1.0, 1.0, 1.0));
     
     
     
